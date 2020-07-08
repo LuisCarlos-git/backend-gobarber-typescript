@@ -2,7 +2,7 @@
 
 ### Sobre
 
-<p>Aplicção simples para consolidar os conceitos sobre typescript e SOLID</p>
+<p>Aplicação simples para consolidar os conceitos sobre typescript e SOLID</p>
 
 ## Rotas da aplicação
 
