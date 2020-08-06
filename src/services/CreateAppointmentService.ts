@@ -1,8 +1,9 @@
 import { getCustomRepository } from 'typeorm';
+import { startOfHour } from 'date-fns';
 
+import AppError from '../errors/AppErrors';
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import { startOfHour } from 'date-fns';
 
 interface RequestDTO {
   provider_id: string;
@@ -20,7 +21,7 @@ class CreateAppointmentService {
     );
 
     if (findAppointmentInSomeDate) {
-      throw new Error('This date or time is not available');
+      throw new AppError('This date or time is not available');
     }
 
     const createAppointment = appointmentsRepository.create({

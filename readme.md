@@ -12,6 +12,12 @@
 - Rota para listagem de agendamentos
   - method: GET
   - url: http://localhost:3333/appointments
+- Rota para criação de usuarios
+  - method: POST
+  - url: http://localhost:3333/users
+- Rota para criação de seções
+  - method: POST
+  - url: http://localhost:3333/users
 
 ### Dependências
 
