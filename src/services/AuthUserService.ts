@@ -5,7 +5,7 @@ import { sign } from 'jsonwebtoken';
 import User from '../models/User';
 
 import configjwt from '../config/jwt';
-import AppError from '../errors/AppErrors';
+import AppError from '../errors/AppError';
 
 interface Request {
   email: string;

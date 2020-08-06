@@ -5,7 +5,7 @@ import fs from 'fs';
 import User from '../models/User';
 
 import uploadConfig from '../config/upload';
-import AppErrors from '../errors/AppErrors';
+import AppErrors from '../errors/AppError';
 
 interface Request {
   id: string;
