@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
-import configjwt from '../config/jwt';
+import configjwt from '@config/jwt';
 
 interface TokenPayload {
   iat: number;

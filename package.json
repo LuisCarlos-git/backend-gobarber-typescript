@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules --no-notify src/server.ts"
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules --no-notify src/shared/infra/http/server.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
