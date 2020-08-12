@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 import { join } from 'path';
 import fs from 'fs';
 
@@ -7,15 +7,21 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import uploadConfig from '@config/upload';
 import AppErrors from '@shared/errors/AppError';
 
-interface Request {
+import IUserRepository from '../repositories/IUserRepository';
+
+interface IRequest {
   id: string;
   avatar: string;
 }
-
+@injectable()
 export default class UpdateAvatarService {
-  public async execute({ id, avatar }: Request): Promise<User> {
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOne({ where: { id } });
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUserRepository,
+  ) {}
+
+  public async execute({ id, avatar }: IRequest): Promise<User> {
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new AppErrors('User not found', 401);
@@ -32,7 +38,7 @@ export default class UpdateAvatarService {
 
     user.avatar = avatar;
 
-    await userRepository.save(user);
+    await this.usersRepository.save(user);
 
     return user;
   }

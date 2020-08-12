@@ -1,22 +1,30 @@
-import { getCustomRepository } from 'typeorm';
 import { startOfHour } from 'date-fns';
+import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
-interface RequestDTO {
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+
+interface IRequestDTO {
   provider_id: string;
   date: Date;
 }
 
+@injectable()
 class CreateAppointmentService {
-  public async excute({ provider_id, date }: RequestDTO): Promise<Appointment> {
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
+  public async excute({
+    provider_id,
+    date,
+  }: IRequestDTO): Promise<Appointment> {
     const appoitmentDate = startOfHour(date);
 
-    const findAppointmentInSomeDate = await appointmentsRepository.findByDate(
+    const findAppointmentInSomeDate = await this.appointmentsRepository.findByDate(
       appoitmentDate,
     );
 
@@ -24,12 +32,10 @@ class CreateAppointmentService {
       throw new AppError('This date or time is not available');
     }
 
-    const createAppointment = appointmentsRepository.create({
+    const createAppointment = await this.appointmentsRepository.create({
       provider_id,
       date: appoitmentDate,
     });
-
-    await appointmentsRepository.save(createAppointment);
 
     return createAppointment;
   }

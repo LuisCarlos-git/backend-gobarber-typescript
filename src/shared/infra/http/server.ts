@@ -1,12 +1,14 @@
 import 'reflect-metadata';
+
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
-import routes from '@shared/infra/http/routes';
 
 import uploadConfig from '@config/upload';
 
-import '@shared/infra/database';
 import AppError from '@shared/errors/AppError';
+import routes from '@shared/infra/http/routes';
+import '@shared/infra/database';
+import '@shared/container';
 
 const app = express();
 
@@ -21,7 +23,7 @@ app.use(
         message: err.message,
       });
     }
-
+    console.log(err);
     return response.status(500).json({
       status: 'Error',
       message: 'Internal server error',

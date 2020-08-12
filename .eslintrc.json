@@ -21,6 +21,10 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "@typescript-eslint/interface-nam-prefix": [
+      "error",
+      { "prefixWithI": "always" }
+    ],
     "prettier/prettier": "error",
     "settings": {
       "import/resolver": {
