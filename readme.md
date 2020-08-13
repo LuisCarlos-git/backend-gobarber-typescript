@@ -28,3 +28,4 @@
 - ts-node-dev
 - express
 - prettier
+- tsyringe

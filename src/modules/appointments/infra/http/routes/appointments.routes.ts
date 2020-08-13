@@ -5,8 +5,11 @@ import { container } from 'tsyringe';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
 import authMiddleware from '@modules/users/infra/http/middlewares/authMiddleware';
+import AppointmentController from '../../Controllers/AppointmentController';
 
 const routerAppointments = Router();
+
+const appointmentController = new AppointmentController();
 
 routerAppointments.use(authMiddleware);
 
@@ -15,18 +18,6 @@ routerAppointments.use(authMiddleware);
 //   return response.json(allAppointments);
 // });
 
-routerAppointments.post('/', async (resquest, response) => {
-  const { provider_id, date } = resquest.body;
-
-  const parsedDate = parseISO(date);
-  const createAppointment = container.resolve(CreateAppointmentService);
-
-  const appointment = await createAppointment.excute({
-    date: parsedDate,
-    provider_id,
-  });
-
-  return response.json(appointment);
-});
+routerAppointments.post('/', appointmentController.create);
 
 export default routerAppointments;
