@@ -6,6 +6,7 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 
 import IUserRepository from '@modules/users/repositories/IUserRepository';
+import IHashProvider from '../providers/models/IHashProvider';
 
 interface IRequest {
   name: string;
@@ -18,6 +19,9 @@ export default class CreateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
@@ -27,7 +31,7 @@ export default class CreateUserService {
       throw new AppError('This user alredy exists');
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({
       name,
