@@ -38,7 +38,7 @@ describe('CreateAuth', () => {
     const auth = new AuthUserService(fakeUserRepository, hashProvider);
     const createUser = new CreateUserService(fakeUserRepository, hashProvider);
 
-    expect(
+    await expect(
       auth.execute({
         email: 'luiscarlos@gmail.com',
         password: '12345',
@@ -59,7 +59,7 @@ describe('CreateAuth', () => {
       password: '12345',
     });
 
-    expect(
+    await expect(
       auth.execute({
         email: 'luiscarlos@gmail.com',
         password: '123456',
